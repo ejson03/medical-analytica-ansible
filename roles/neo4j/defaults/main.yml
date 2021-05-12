@@ -1,0 +1,19 @@
+# Copyright © 2020 Interplanetary Database Association e.V.,
+# BigchainDB and IPDB software contributors.
+# SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
+# Code is Apache-2.0 and docs are CC-BY-4.0
+
+---
+utils_docker_net: "utils_docker_net"
+neo4j_docker_name: "neo4j"
+neo4j_port_1: "7474:7474"
+neo4j_port_2: "7373:7373"
+neo4j_port_3: "7687:7687"
+
+remote_neo4j_data: "/data"
+remote_neo4j_logs: "/logs "
+remote_neo4j_import: "/var/lib"
+remote_neo4j_plugins: "/plugins "
+
+
+ 

@@ -1,0 +1,26 @@
+
+---
+- name: Running Neo4j Docker
+  docker_container:
+    name: "{{ neo4j_docker_name }}"
+    hostname: "{{ neo4j_docker_name }}"
+    image: "{{ neo4j_docker_name }}"
+    detach: true
+    network_mode: bridge
+    networks:
+      - name: "{{ utils_docker_net }}"
+    env:
+      NEO4J_AUTH: "none"
+    volumes:
+      - "{{ remote_neo4j_logs }}"
+      - "{{ remote_neo4j_import }}"
+      - "{{ remote_neo4j_data }}"
+      - "{{ remote_neo4j_plugins }}"
+    published_ports:
+      - "{{ neo4j_port_1 }}"
+      - "{{ neo4j_port_2 }}"
+      - "{{ neo4j_port_3 }}"
+    state: started
+    restart_policy: always
+  tags: [neo4j]
+

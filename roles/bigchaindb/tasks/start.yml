@@ -1,0 +1,54 @@
+# Copyright © 2020 Interplanetary Database Association e.V.,
+# BigchainDB and IPDB software contributors.
+# SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
+# Code is Apache-2.0 and docs are CC-BY-4.0
+
+---
+- name: Building BigchainDB Docker
+  docker_image:
+    name: "{{ bigchaindb_image_name }}"
+    tag: "{{bigchaindb_image_tag }}"
+    state: present
+    source: build
+    build:
+      dockerfile: Dockerfile-ansible
+      path: "{{ root_dir }}/bigchaindb"
+      nocache: no
+      args:
+        backend: "{{ db_backend }}"
+        db_port: "{{ db_port }}"
+        db_backend: "{{ db_backend }}"
+        db_host: "{{ db_host }}"
+        server_bind: "{{ server_bind }}"
+        ws_host: "{{ ws_host }}"
+        ws_adv_host: "{{ ws_adv_host }}"
+        tm_port: "{{ tm_port }}"
+        tm_host: "{{ tm_host }}"
+  tags: [bigchaindb]
+
+- name: Start BigchainDB Docker
+  docker_container:
+    name: "{{ bigchaindb_docker_name }}"
+    image: "{{ bigchaindb_image_name }}:{{ bigchaindb_image_tag }}"
+    hostname: "{{ bigchaindb_docker_name }}"
+    detach: true
+    # network_mode: bridge
+    # networks:
+    #   - name: "{{ bigchaindb_docker_net }}"
+    env:
+      BIGCHAINDB_DATABASE_BACKEND: "localmongodb"
+      BIGCHAINDB_DATABASE_HOST: "{{ mongodb_docker_name }}"
+      BIGCHAINDB_DATABASE_PORT: "27017"
+      BIGCHAINDB_SERVER_BIND: "0.0.0.0:9984"
+      BIGCHAINDB_WSSERVER_HOST: "0.0.0.0"
+      BIGCHAINDB_TENDERMINT_HOST: "{{ tendermint_docker_name }}"
+      BIGCHAINDB_TENDERMINT_PORT: "{{ bigchaindb_tendermint_port }}"
+    published_ports:
+      - "{{ bigchaindb_default_server_port }}"
+      - "{{ bigchaindb_default_ws_port }}"
+      - "{{ tendermint_abci_port }}"
+    restart_policy: always
+    state: started
+    command: ".ci/entrypoint.sh"
+  tags: [bigchaindb]
+

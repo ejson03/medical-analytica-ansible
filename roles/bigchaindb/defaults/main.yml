@@ -1,0 +1,31 @@
+# Copyright © 2020 Interplanetary Database Association e.V.,
+# BigchainDB and IPDB software contributors.
+# SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
+# Code is Apache-2.0 and docs are CC-BY-4.0
+
+---
+
+
+
+db_backend: "localmongodb"
+db_host: "mongodb"
+db_port: 27017
+server_bind: "0.0.0.0:9984"
+ws_host: "0.0.0.0"
+ws_adv_host: "bigchaindb"
+tm_port: "tendermint"
+tm_host: 26657
+
+bigchaindb_server_bind: "0.0.0.0:9984"
+
+# Docker configuration
+bigchaindb_image_name: "bigchaindb/bigchaindb"
+bigchaindb_image_tag: "develop"
+bigchaindb_docker_name: "bigchaindb"
+mongodb_docker_name: "mongodb"
+tendermint_docker_name: "tendermint"
+bigchaindb_default_server_port: "9984:9984"
+bigchaindb_default_ws_port: "9985:9985"
+bigchaindb_tendermint_port: 26657
+tendermint_abci_port: "26658:26658"
+bigchaindb_docker_net: "bigchaindb_docker_net"

@@ -1,0 +1,25 @@
+
+---
+
+- name: Starting Tendermint Containers
+  docker_container:
+    name: "{{ tendermint_docker_name }}"
+    hostname: "{{ tendermint_docker_name }}"
+    image: "{{ tendermint_image_name }}:{{ tendermint_image_tag }}"
+    detach: true
+    # network_mode: bridge
+    # networks:
+    #   - name: "{{ bigchaindb_docker_net }}"
+    published_ports:
+      - "{{ tendermint_p2p_port }}"
+      - "{{ tendermint_rpc_port }}"
+    volumes:
+      - "{{ tendermint_host_mount_dir }}:{{ tendermint_home }}"
+    entrypoint: ''
+    command: sh -c "tendermint init && tendermint node --consensus.create_empty_blocks=false --proxy_app=tcp://bigchaindb:26658"
+    state: started
+    restart_policy: always
+    keep_volumes: true
+  tags: [tendermint]
+
+

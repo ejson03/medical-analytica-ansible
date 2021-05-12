@@ -1,0 +1,18 @@
+
+---
+- name: Running MongoDB Docker
+  docker_container:
+    name: "{{ mongodb_docker_name }}"
+    hostname: "{{ mongodb_docker_name }}"
+    image: "mongo:{{ mongo_version }}"
+    detach: true
+    # network_mode: bridge
+    # networks:
+    #   - name: "{{ bigchaindb_docker_net }}"
+    published_ports:
+      - "{{ mongodb_port }}"
+    restart_policy: always
+    state: started
+    command: mongod
+  tags: [mongodb]
+

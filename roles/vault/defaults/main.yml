@@ -1,0 +1,27 @@
+# Copyright © 2020 Interplanetary Database Association e.V.,
+# BigchainDB and IPDB software contributors.
+# SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
+# Code is Apache-2.0 and docs are CC-BY-4.0
+
+---
+utils_docker_net: "utils_docker_net"
+vault_docker_name: "vault"
+vault_port: "8200:8200"
+vault_local_config: '{"backend" : {"file" : {"path" : "/vault/file"}}}'
+vault_supplemental_config: '{"ui":true, "listener": {"tcp":{"address": "0.0.0.0:8200", "tls_disable": 1}}}'
+vault_addr: "http://127.0.0.1:8200"
+vault_token: "myroot"
+vault_dev_root_token_id: "myroot"
+
+remote_vault_config: "/vault/config"
+remote_vault_policies: "/vault/policies"
+remote_vault_data: "/vault/data"
+remote_vault_file: "/vault/file"
+remote_vault_unseal: "/vault/unseal"
+remote_vault_entry: "/usr/local/bin/docker-entrypoint.sh"
+
+ 
+local_vault_file: "{{ root_dir }}/vault/file"
+local_vault_unseal: "{{ root_dir }}/vault/unseal"
+local_vault_entry: "{{ root_dir }}/vault/docker-entrypoint.sh"
+ 

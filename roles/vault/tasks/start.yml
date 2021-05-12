@@ -1,0 +1,31 @@
+
+---
+- name: Running Vault Docker
+  docker_container:
+    name: "{{ vault_docker_name }}"
+    hostname: "{{ vault_docker_name }}"
+    image: "{{ vault_docker_name }}"
+    detach: true
+    # network_mode: bridge
+    # networks:
+    #   - name: "{{ utils_docker_net }}"
+    env:
+      VAULT_LOCAL_CONFIG: '{"backend" : {"file" : {"path" : "/vault/file"}}}'
+      VAULT_SUPPLEMENTAL_CONFIG: '{"ui":true, "listener": {"tcp":{"address": "0.0.0.0:8200", "tls_disable": 1}}}'
+      VAULT_ADDR: "{{ vault_addr }}"
+      VAULT_TOKEN: "{{ vault_token }}"
+      VAULT_DEV_ROOT_TOKEN_ID: "{{ vault_dev_root_token_id }}"
+    volumes:
+      - "{{ local_vault_file }}:{{ remote_vault_file }}"
+      - "{{ local_vault_unseal }}:{{ remote_vault_unseal }}"
+      - "{{ local_vault_entry }}:{{ remote_vault_entry }}"
+      - "{{ remote_vault_config }}"
+      - "{{ remote_vault_policies }}"
+      - "{{ remote_vault_data }}"
+    published_ports:
+      - "{{ vault_port }}"
+    ipc_mode: 
+    state: started
+    command: vault server -config=/vault/config --cap-add IPC_LOCK
+  tags: [vault]
+
